@@ -1,10 +1,36 @@
 import torch
 import random
 import numpy as np
+import argparse
 from collections import deque
 from game import SnakeGameAI, Direction, Point
 from model import Linear_QNet, QTrainer
 from helper import plot
+
+parser = argparse.ArgumentParser()
+
+#Argument 1 selects: rewards: -10 for lose, +10 for scoring (Original)
+#Argument 2 selects: -10 for lose, -1 for moving away, +10 for scoring, +1 for moving towards. (Frequent rewards)
+#Argument 3 selects: -20 for lose, -2 for moving away, +10 for scoring, +1 for moving towards. (Frequent rewards, Increase penalty)
+#Argument 4 selects: -(10+score * 2) for lose, -1 for moving away, +(10+score * 2) for scoring, +1 for moving towards. (Frequent rewards, Adaptive reward)
+#Argument 5 selects: -(10+score * 3) for lose, -2 for moving away, +(10+score * 2) for scoring, +1 for moving towards. (Frequent rewards, Increase penalty, Adaptive reward)
+parser.add_argument('x',type=float)
+parser.add_argument('--expected','-e',type=float)
+args = parser.parse_args()
+
+REWARD_CONFIG = args.x
+print(REWARD_CONFIG)
+if args.expected is not None and args.expected != REWARD_CONFIG:
+    print(f"Expected {args.expected} but got {REWARD_CONFIG}")
+
+
+
+
+print("Reward Type: " + str(REWARD_CONFIG))
+#Argument 1 selects: rewards: -10 for lose, +10 for scoring (Original)
+
+    #SnakeGameAI(640,480,5)
+    #print(SnakeGameAI.reward_type)
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -107,6 +133,7 @@ def train():
     record = 0
     agent = Agent()
     game = SnakeGameAI()
+    game.reward_type = REWARD_CONFIG
     while True:
         # get old state
         state_old = agent.get_state(game)
@@ -141,7 +168,7 @@ def train():
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
             plot(plot_scores, plot_mean_scores)
-
+            #print(reward)
 
 if __name__ == '__main__':
     train()
