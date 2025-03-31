@@ -96,24 +96,24 @@ class SnakeGameAI:
             self.reward_gain_2 = 0
         if self.reward_type == 2:
             self.reward_loss_1 = -10
-            self.reward_loss_2 = 0
+            self.reward_loss_2 = -1
             self.reward_gain_1 = 10
-            self.reward_gain_2 = 0
+            self.reward_gain_2 = 1
         if self.reward_type == 3:
-            self.reward_loss_1 = -10
-            self.reward_loss_2 = 0
+            self.reward_loss_1 = -20
+            self.reward_loss_2 = -2
             self.reward_gain_1 = 10
-            self.reward_gain_2 = 0
+            self.reward_gain_2 = 1
         if self.reward_type == 4:
-            self.reward_loss_1 = -10
-            self.reward_loss_2 = 0
-            self.reward_gain_1 = 10
-            self.reward_gain_2 = 0
+            self.reward_loss_1 = -(10 + self.score * 3)
+            self.reward_loss_2 = -1
+            self.reward_gain_1 = 10 + self.score * 3
+            self.reward_gain_2 = 1
         if self.reward_type == 5:
-            self.reward_loss_1 = -10
-            self.reward_loss_2 = 0
+            self.reward_loss_1 = -(10 + self.score * 3)
+            self.reward_loss_2 = -1
             self.reward_gain_1 = 10
-            self.reward_gain_2 = 0
+            self.reward_gain_2 = 1
 
         food_v = pygame.Vector2(self.food)
         head_v = pygame.Vector2(self.head)
@@ -137,7 +137,7 @@ class SnakeGameAI:
         # 4. place new food or just move
         if self.head == self.food:
             self.score += 1
-            self.reward = reward_gain_1
+            self.reward = self.reward_gain_1
             self._place_food()
         else:
             self.snake.pop()
