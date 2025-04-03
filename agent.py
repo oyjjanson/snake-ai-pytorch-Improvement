@@ -2,7 +2,7 @@ import torch
 import random
 import numpy as np
 import argparse
-from collections import deque
+from collections import deque, namedtuple
 from game import SnakeGameAI, Direction, Point
 from model import Linear_QNet, QTrainer
 from helper import plot
@@ -15,18 +15,41 @@ parser = argparse.ArgumentParser()
 #Argument 4 selects: -(10+score * 3) for lose, -1 for moving away, +(10+score * 3) for scoring, +1 for moving towards. (Frequent rewards, Adaptive reward)
 #Argument 5 selects: -(10+score * 3) for lose, -2 for moving away, +(10+score * 3) for scoring, +1 for moving towards. (Frequent rewards, Increase penalty, Adaptive reward)
 parser.add_argument('x',type=float)
+parser.add_argument('y',type=int)
 parser.add_argument('--expected','-e',type=float)
 args = parser.parse_args()
 
 REWARD_CONFIG = args.x
+STATE_CONFIG = args.y
+
 print(REWARD_CONFIG)
+print(STATE_CONFIG)
+
 if args.expected is not None and args.expected != REWARD_CONFIG:
     print(f"Expected {args.expected} but got {REWARD_CONFIG}")
 
+input_size = -1
+
+#Initialise empty array
+#Added inputs
+
+Point = namedtuple('Point', 'x, y')
+BLOCK_SIZE = 20
+add_inputs = []
+grid_size = STATE_CONFIG*2 + 1
+for i in range((STATE_CONFIG*2 + 1)**2):
+    j = i%grid_size
+    k = i//grid_size
+    temp_point = Point(-20 + 20*j,-20 + 20*k)
+    add_inputs.append(temp_point)
+print(add_inputs)
+
+input_size = 11 + (STATE_CONFIG*2 + 1)**2
+print("Input Size:" + str(input_size))
 
 
-
-print("Reward Type: " + str(REWARD_CONFIG))
+print("Reward Config: " + str(REWARD_CONFIG))
+print("State Config: " + str(STATE_CONFIG))
 #Argument 1 selects: rewards: -10 for lose, +10 for scoring (Original)
 
     #SnakeGameAI(640,480,5)
@@ -36,6 +59,8 @@ MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
 
+
+
 class Agent:
 
     def __init__(self):
@@ -43,7 +68,7 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Linear_QNet(input_size, 256, 3)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
 
@@ -53,11 +78,19 @@ class Agent:
         point_r = Point(head.x + 20, head.y)
         point_u = Point(head.x, head.y - 20)
         point_d = Point(head.x, head.y + 20)
+
+        point_x = point_d + point_u + head
+
+        point_l2 = Point(head.x - 40, head.y)
+        point_r2 = Point(head.x + 40, head.y)
+        point_u2 = Point(head.x, head.y - 40)
+        point_d2 = Point(head.x, head.y + 40)
         
         dir_l = game.direction == Direction.LEFT
         dir_r = game.direction == Direction.RIGHT
         dir_u = game.direction == Direction.UP
         dir_d = game.direction == Direction.DOWN
+
 
         state = [
             # Danger straight
@@ -91,6 +124,13 @@ class Agent:
             game.food.y > game.head.y  # food down
             ]
 
+        # Append more inputs in state
+        for i in add_inputs:
+            i = Point(head.x +i.x,head.y+i.y)
+            state.append(game.is_collision(i))
+        # print(state)
+        # print(len(state))
+            
         return np.array(state, dtype=int)
 
     def remember(self, state, action, reward, next_state, done):
