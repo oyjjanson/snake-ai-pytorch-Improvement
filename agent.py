@@ -9,18 +9,31 @@ from helper import plot
 
 parser = argparse.ArgumentParser()
 
+#Arg x
 #Argument 1 selects: rewards: -10 for lose, +10 for scoring (Original)
 #Argument 2 selects: -10 for lose, -1 for moving away, +10 for scoring, +1 for moving towards. (Frequent rewards)
 #Argument 3 selects: -20 for lose, -2 for moving away, +10 for scoring, +1 for moving towards. (Frequent rewards, Increase penalty)
 #Argument 4 selects: -(10+score * 3) for lose, -1 for moving away, +(10+score * 3) for scoring, +1 for moving towards. (Frequent rewards, Adaptive reward)
 #Argument 5 selects: -(10+score * 3) for lose, -2 for moving away, +(10+score * 3) for scoring, +1 for moving towards. (Frequent rewards, Increase penalty, Adaptive reward)
-parser.add_argument('x',type=float)
+
+#Arg y
+#Increases inputs to nn by y times y grid around snake head
+
+#Arg z
+#No. of Hidden layer nodes (2nd HL)
+
+#Arg a1
+#No. of Hidden layer nodes (3rd HL)
+
+parser.add_argument('x',type=int)
 parser.add_argument('y',type=int)
+parser.add_argument('z',type=int)
 parser.add_argument('--expected','-e',type=float)
 args = parser.parse_args()
 
 REWARD_CONFIG = args.x
 STATE_CONFIG = args.y
+HiddenL_CONFIG = args.z
 
 print(REWARD_CONFIG)
 print(STATE_CONFIG)
@@ -38,10 +51,11 @@ BLOCK_SIZE = 20
 add_inputs = []
 grid_size = STATE_CONFIG*2 + 1
 for i in range((STATE_CONFIG*2 + 1)**2):
-    j = i%grid_size
-    k = i//grid_size
-    temp_point = Point(-20 + 20*j,-20 + 20*k)
-    add_inputs.append(temp_point)
+    if STATE_CONFIG != 1:
+        j = i%grid_size
+        k = i//grid_size
+        temp_point = Point(-20 + 20*j,-20 + 20*k)
+        add_inputs.append(temp_point)
 print(add_inputs)
 
 input_size = 11 + (STATE_CONFIG*2 + 1)**2
@@ -68,7 +82,7 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-        self.model = Linear_QNet(input_size, 256, 3)
+        self.model = Linear_QNet(input_size, 256, 3, HiddenL_CONFIG)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
 
@@ -174,6 +188,10 @@ def train():
     agent = Agent()
     game = SnakeGameAI()
     game.reward_type = REWARD_CONFIG
+    game.hiddenL_type = HiddenL_CONFIG
+
+    command = f"Agent.py {REWARD_CONFIG} {STATE_CONFIG} {HiddenL_CONFIG}"
+
     while True:
         # get old state
         state_old = agent.get_state(game)
@@ -207,7 +225,9 @@ def train():
             total_score += score
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
-            plot(plot_scores, plot_mean_scores)
+            plot(plot_scores, 
+                plot_mean_scores, 
+                command)
             #print(reward)
 
 if __name__ == '__main__':

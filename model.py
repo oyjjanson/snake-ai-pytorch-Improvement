@@ -5,13 +5,27 @@ import torch.nn.functional as F
 import os
 
 class Linear_QNet(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
+    def __init__(self, input_size, hidden_size, output_size, hiddenL_type):
         super().__init__()
+        # One layer of nodes to another
+        self.hiddenL_type = hiddenL_type
+
+        self.hidden = nn.ModuleList()
         self.linear1 = nn.Linear(input_size, hidden_size)
+        #Hidden Layer Config 1: Normal
+        if hiddenL_type == 2:
+            # Hidden Layer Config 2: Adds 1 layer with 256 nodes
+            self.hidden.append(nn.Linear(hidden_size,hidden_size))
+            # Hidden Layer Config 3: Adds 1 layer with 3 nodes and another with 256
+
+            # Hidden Layer Config 4: Reuse linear 1 and 2 after X iterations as hidden nodes
         self.linear2 = nn.Linear(hidden_size, output_size)
+
 
     def forward(self, x):
         x = F.relu(self.linear1(x))
+        for layer in self.hidden:
+            x = F.relu(layer(x))
         x = self.linear2(x)
         return x
 

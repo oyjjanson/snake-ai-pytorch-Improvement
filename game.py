@@ -31,7 +31,7 @@ BLOCK_SIZE = 20
 SPEED = 40
 
 class SnakeGameAI:
-    def __init__(self, w=640, h=480, reward_type=0):
+    def __init__(self, w=640, h=480, reward_type=0, hiddenL_type=0):
         self.w = w
         self.h = h
         # init display
@@ -40,6 +40,7 @@ class SnakeGameAI:
         self.clock = pygame.time.Clock()
         self.reset()
         self.reward_type = reward_type
+        self.hiddenL_type = hiddenL_type
         self.reward = 0
         self.reward_loss_1 = -1
         self.reward_loss_2 = -1
@@ -62,7 +63,6 @@ class SnakeGameAI:
         self._place_food()
         self.frame_iteration = 0
 
-
     def _place_food(self):
         x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
         y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
@@ -70,9 +70,7 @@ class SnakeGameAI:
         if self.food in self.snake:
             self._place_food()
 
-
     def play_step(self, action):
-        
         self.frame_iteration += 1
         # 1. collect user input
         for event in pygame.event.get():
