@@ -6,7 +6,7 @@ Original repo is a Python Reinforcement Learning Tutorial series that teaches an
 
 You may find the Youtube video detailing this here: [Playlist](https://www.youtube.com/playlist?list=PLqnslRFeH2UrDh7vUmJ60YrmWd64mTTKV)
 
-# Content
+# Contents
 
 - Adaptive Reward
 - Increase inputs
