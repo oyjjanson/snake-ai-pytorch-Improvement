@@ -6,13 +6,14 @@ Original repo is a Python Reinforcement Learning Tutorial series that teaches an
 
 You may find the Youtube video detailing this here: [Playlist](https://www.youtube.com/playlist?list=PLqnslRFeH2UrDh7vUmJ60YrmWd64mTTKV)
 
-- Part 1: Adaptive Reward
-- Part 2: 
-- Part 3: 
-- Part 4: 
+# Content
 
-# Test
+- Adaptive Reward
+- Increase inputs
+- Layer Shenanigans
 
-#test
+# Adaptive Reward
 
-#TEST
+# Increase inputs
+
+# Layer Shenanigans
