@@ -1,6 +1,6 @@
 # Study of improvement attempts made to "snake-ai-pytorch" repository
 
-This repository documents several attempts at improving original repo.
+This repository documents several attempts at improving original repo in terms of score of AI.
 
 Original repo is a Python Reinforcement Learning Tutorial series that teaches an AI to play Snake.
 
