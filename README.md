@@ -18,17 +18,15 @@ You may find the Youtube video detailing this here: [Playlist](https://www.youtu
 Made certain alterations to the reward system of original repo.
 
 There are 4 parameters currently that are used to alter the reward system. Reward #1-4 is a combination/change of these 4 parameters. 
+
 Below explains the 4 parameters and what they do.
-### Parameter#1: 
+### Parameters: 
 ```
-self.reward_loss_1
+Parameter#1: self.reward_loss_1 #Reward colliding with wall/self
+Parameter#2: self.reward_loss_2 #Reward moving away from food
+Parameter#3: self.reward_gain_1 #Reward after colliding with food
+Parameter#4: self.reward_gain_2 #Reward moving toward food
 ```
-Reward hitting wall/self
-### Parameter#2:
-```
-self.reward_loss_2
-```
-Reward moving away from food
 
 ## Reward#1 (-10 for lose, +10 for scoring (Original))
 First reward is the original reward system, serves as a baseline.
