@@ -15,7 +15,8 @@ You may find the Youtube video detailing this here: [Playlist](https://www.youtu
 # Adaptive Reward
 ## Reward#1 (-10 for lose, +10 for scoring (Original))
 First reward is the original reward system, serves as a baseline.
-![Uploading AdaptiveReward-1.png…]()
+![AdaptiveReward-1](https://github.com/user-attachments/assets/b00f7c67-90b5-4212-ae78-a0571b93b95e)
+
 
 # Increase inputs
 
