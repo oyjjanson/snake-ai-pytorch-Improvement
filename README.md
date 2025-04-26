@@ -13,6 +13,9 @@ You may find the Youtube video detailing this here: [Playlist](https://www.youtu
 - Layer Shenanigans
 
 # Adaptive Reward
+## Reward#1 (-10 for lose, +10 for scoring (Original))
+First reward is the original reward system, serves as a baseline.
+![Uploading AdaptiveReward-1.png…]()
 
 # Increase inputs
 
