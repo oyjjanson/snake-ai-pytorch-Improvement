@@ -29,8 +29,8 @@ Parameter#4: self.reward_gain_2 #Reward moving toward food
 ```
 
 ## Reward#1 (-10 for lose, +10 for scoring (Original))
-self.reward_loss_1 = -10
-self.reward_loss_2 = 0
+self.reward_loss_1 = -10<br>
+self.reward_loss_2 = 0<br>
 self.reward_gain_1 = +10
 self.reward_gain_2 = 0
 First reward is the original reward system, serves as a baseline.
