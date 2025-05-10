@@ -44,11 +44,15 @@ self.reward_loss_1 = -10
 <br>self.reward_gain_2 = +1
 <br>Gives feedback per movement based on moving toward or away from food.
 
+![AdaptiveReward-2](https://github.com/user-attachments/assets/deea8e44-52c5-4fb2-969a-eec015c75ea7)
+
 ## Reward#3
 self.reward_loss_1 = -20
 <br>self.reward_loss_2 = -2
 <br>self.reward_gain_1 = +10
 <br>self.reward_gain_2 = +1
+
+![AdaptiveReward-3](https://github.com/user-attachments/assets/55233b08-3bb2-46f4-9f41-371a8d2160ea)
 
 ## Reward#4
 self.reward_loss_1 = -(10 + self.score * 3)
@@ -56,12 +60,19 @@ self.reward_loss_1 = -(10 + self.score * 3)
 <br>self.reward_gain_1 = 10 + self.score * 3
 <br>self.reward_gain_2 = +1
 
+![AdaptiveReward-4](https://github.com/user-attachments/assets/a3180301-2f5a-4a1b-a6a2-1183965ad018)
+
 ## Reward#5
 self.reward_loss_1 = -(10 + self.score * 3)
 <br>self.reward_loss_2 = -1
 <br>self.reward_gain_1 = +10
 <br>self.reward_gain_2 = +1
 
+![AdaptiveReward-5](https://github.com/user-attachments/assets/1d9ccaed-ba2a-4d7f-b6d5-a094177b3d68)
+
 # Increase inputs
 
+<br>Layer 1 inputs were increased by a variable^2. This represents the square grid around the snake head.
+<br>Increasing layer inputs have shown to decrease overall score of agent. 
+<br>
 # Layer Shenanigans
